@@ -159,7 +159,7 @@ html[data-theme="light"] { … }
    https://<ชื่อผู้ใช้-github>.github.io/cv/
    ```
 
-   ตัวอย่าง: `https://panuwat-dev.github.io/cv/`
+   ตัวอย่าง: `https://beampanuwat.github.io/cv/`
 
 6. เปิด Link ทดสอบ และส่งให้ HR / Recruitment ได้ทันที
 
@@ -208,8 +208,7 @@ git push -u origin main
 - [ ] กดสลับ EN / TH แล้วข้อความไม่ล้น/ขาด
 - [ ] ตรวจเบอร์โทร อีเมล และวันที่ทำงานอีกครั้ง
 - [ ] กด **Download PDF** แล้วไฟล์ออกมาสวย (พื้นขาว, ไม่มีเมนู)
-- [ ] เปลี่ยน `og:url` ใน `index.html` จาก `https://YOUR-USERNAME.github.io/cv/`
-      เป็น Link จริง (เพื่อให้ preview ตอนแชร์ดูดี)
+- [x] ตั้งค่า `og:url` ใน `index.html` เป็น `https://beampanuwat.github.io/cv/` แล้ว
 - [ ] ทดสอบกด `Ctrl + K` และ Copy email
 - [ ] เปิด Link ใน Chrome, Edge และ Safari (ถ้ามี)
 
