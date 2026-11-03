@@ -5,6 +5,9 @@ CV แบบเว็บไซต์ (HTML / CSS / JavaScript) สำหรั�
 
 > ไม่ต้องใช้ Framework, ไม่ต้องติดตั้ง Node.js, ไม่ต้อง Build — แก้ไฟล์แล้วเปิดใน Browser ได้เลย
 
+**เว็บที่เผยแพร่แล้ว:** https://beampanuwat.github.io/cv/  
+**Repo:** https://github.com/beampanuwat/cv
+
 ---
 
 ## 1. เปิดดูในเครื่อง (VSCode)
