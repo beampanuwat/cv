@@ -1,0 +1,274 @@
+{
+  "revision": 1,
+  "availability": {
+    "open": true,
+    "updated": "2026-11-04T00:00:00+07:00"
+  },
+  "overview": {
+    "years": "4",
+    "companies": "3",
+    "experience": {
+      "en": "4+ years · 3 enterprises",
+      "th": "4+ ปี · 3 องค์กร"
+    }
+  },
+  "profile": "assets/img/profile.jpg",
+  "contact": {
+    "email": "beam_panuwat@hotmail.com",
+    "phone": "+66 86 386 7164",
+    "location": {
+      "en": "Pathum Thani, Thailand",
+      "th": "ปทุมธานี ประเทศไทย"
+    },
+    "description": {
+      "en": "Open to Senior SAP Technical Support, SAP Integration Engineer and SAP Application Operations roles. Available to start immediately.",
+      "th": "เปิดรับโอกาสในตำแหน่ง Senior SAP Technical Support, SAP Integration Engineer และ SAP Application Operations พร้อมเริ่มงานได้ทันที"
+    }
+  },
+  "experience": [
+    {
+      "id": "job-0",
+      "period": {
+        "en": "Jun 2026 — Sep 2026",
+        "th": "มิ.ย. 2026 — ก.ย. 2026"
+      },
+      "company": "Gosoft (Thailand) Co., Ltd.",
+      "role": {
+        "en": "Senior SAP Technical Support Engineer",
+        "th": "วิศวกรสนับสนุนด้านเทคนิค SAP ระดับอาวุโส"
+      },
+      "tags": "SAP HANA, SAP PI/PO, Linux, Web Dispatcher",
+      "points": {
+        "en": "Support SAP enterprise applications, SAP HANA, Java-based application platforms, Linux servers and middleware services to maintain availability and business continuity.\nMonitor system health and performance across CPU, memory, disk, swap, database memory, application response time and interface processing; prepare operational reports and technical documentation.\nOwn production incidents end to end, including impact assessment, technical analysis, root cause investigation, service restoration and coordination with application, infrastructure, database and vendor teams.\nSupport SAP PI/PO, SAP Web Dispatcher, communication channels, message processing and integration flows between SAP, middleware platforms and external systems.\nTroubleshoot SAP and middleware issues using monitoring and log analysis to reduce operational risk and prevent recurrence.",
+        "th": "ดูแลและสนับสนุนแอปพลิเคชันองค์กร SAP, SAP HANA, แพลตฟอร์มแอปพลิเคชันบน Java, เซิร์ฟเวอร์ Linux และบริการมิดเดิลแวร์ เพื่อรักษาความพร้อมใช้งานและความต่อเนื่องทางธุรกิจ\nติดตามสุขภาพและประสิทธิภาพของระบบ ครอบคลุม CPU, Memory, Disk, Swap, Database Memory, Application Response Time และการประมวลผล Interface พร้อมจัดทำรายงานการปฏิบัติงานและเอกสารทางเทคนิค\nดูแล Incident ในระบบ Production แบบครบวงจร ตั้งแต่ประเมินผลกระทบ วิเคราะห์เชิงเทคนิค หาสาเหตุราก กู้คืนบริการ และประสานงานกับทีม Application, Infrastructure, Database และ Vendor\nสนับสนุน SAP PI/PO, SAP Web Dispatcher, Communication Channel, การประมวลผลข้อความ และ Integration Flow ระหว่าง SAP, แพลตฟอร์ม Middleware และระบบภายนอก\nวิเคราะห์และแก้ไขปัญหา SAP และ Middleware โดยใช้ข้อมูลจาก Monitoring และ Log Analysis เพื่อลดความเสี่ยงในการปฏิบัติงานและป้องกันปัญหาเกิดซ้ำ"
+      },
+      "logo": "assets/img/logo-gosoft.png"
+    },
+    {
+      "id": "job-1",
+      "period": {
+        "en": "Sep 2025 — May 2026",
+        "th": "ก.ย. 2025 — พ.ค. 2026"
+      },
+      "company": "Honda Automobile (Thailand) Co., Ltd.",
+      "role": {
+        "en": "SAP Application Operation & Dealer Support (Outsource)",
+        "th": "SAP Application Operation & Dealer Support (Outsource)"
+      },
+      "tags": "SAP ERP, FI / CO / MM / SD, SAP CRM, Dealer Support",
+      "points": {
+        "en": "Support and operate SAP ERP applications to ensure smooth business operations for dealers and business users, in alignment with defined business processes.\nMonitor and maintain system performance, availability and stability of SAP systems, including root cause analysis to prevent operational impact.\nProvide operational and functional support for users, resolving issues related to transactions, processes and daily operations, and coordinate with relevant teams until resolution.\nCollaborate closely with SAP functional teams and support multiple SAP modules, including FI_AP, FI_AR, FI_SD, FI_CO, FI_MM, SAP CRM and related components.\nAnalyse system architecture and contribute to the design of interface and integration flows within the SAP landscape.\nAnalyse end-to-end business processes and integration architecture between SAP ERP and dealer / external systems.\nParticipate in the design of interface flows, data mapping and integration logic to support business requirements.",
+        "th": "รับผิดชอบการสนับสนุนและปฏิบัติการแอปพลิเคชัน SAP ERP เพื่อให้การดำเนินงานของ Dealer และผู้ใช้ทางธุรกิจเป็นไปอย่างราบรื่นตาม Business Process ที่กำหนด\nติดตามและรักษาประสิทธิภาพ ความพร้อมใช้งาน และเสถียรภาพของระบบ SAP รวมถึงการวิเคราะห์สาเหตุรากเพื่อป้องกันผลกระทบต่อการดำเนินงาน\nให้การสนับสนุนด้าน Operation และ Functional แก่ผู้ใช้งาน แก้ไขปัญหาที่เกี่ยวกับ Transaction, Process และการดำเนินงานประจำวัน พร้อมประสานงานกับทีมที่เกี่ยวข้องจนกว่าจะแก้ไขได้\nทำงานร่วมกับทีม SAP Functional และสนับสนุนหลายโมดูล ได้แก่ FI_AP, FI_AR, FI_SD, FI_CO, FI_MM, SAP CRM และองค์ประกอบที่เกี่ยวข้อง\nวิเคราะห์สถาปัตยกรรมระบบ และมีส่วนร่วมในการออกแบบ Interface และ Integration Flow ภายใน SAP Landscape\nวิเคราะห์ Business Process แบบ End-to-End และสถาปัตยกรรมการเชื่อมต่อระหว่าง SAP ERP กับระบบ Dealer และระบบภายนอก\nมีส่วนร่วมในการออกแบบ Interface Flow, Data Mapping และ Integration Logic เพื่อรองรับความต้องการทางธุรกิจ"
+      },
+      "logo": "assets/img/logo-honda.png"
+    },
+    {
+      "id": "job-2",
+      "period": {
+        "en": "Sep 2022 — Aug 2025",
+        "th": "ก.ย. 2022 — ส.ค. 2025"
+      },
+      "company": "Charoen Pokphand Foods Public Co., Ltd. (CPF)",
+      "role": {
+        "en": "SAP Integration System Engineer",
+        "th": "วิศวกรระบบเชื่อมต่อ SAP"
+      },
+      "tags": "SAP PI/PO, Kong Gateway, Kafka, AWS, Huawei Cloud",
+      "points": {
+        "en": "Develop and maintain middleware systems for integrating SAP ERP with internal and external systems.\nDesign and configure integration interfaces using SAP PI/PO and SAP backend to support seamless communication between systems.\nPlan and monitor end-to-end system connectivity through firewalls and NAT IP to ensure secure and efficient data transfer.\nDesign API integration architecture using Kong Gateway, including route configuration, plugin management and end-to-end data delivery.\nCollaborate with SAP functional teams and gain hands-on experience across modules such as FI_AP, FI_AR, FI_CO, FI_GL, FI_MM, FI_SD, ERP_MM and ERP_SD.\nDesign data mapping flows and transformations between REST/JSON and SOAP/XML formats to support diverse business requirements.\nWork hands-on with SAP integration methods including RFC, IDoc, proxy class and file, across SAP ECC 6.0 and SAP S/4HANA.\nConduct API and web service testing with SoapUI, JMeter and Postman to ensure system accuracy and performance.\nMaintain and optimise systems running on Linux, AWS Cloud and Huawei Cloud to ensure high availability and operational efficiency.",
+        "th": "พัฒนาและบำรุงรักษาระบบ Middleware สำหรับเชื่อมต่อ SAP ERP กับระบบภายในและภายนอกองค์กร\nออกแบบและตั้งค่า Interface ด้วย SAP PI/PO และ SAP Backend เพื่อรองรับการสื่อสารระหว่างระบบต่าง ๆ อย่างราบรื่น\nวางแผนและตรวจสอบการเชื่อมต่อระบบแบบ End-to-End ผ่าน Firewall และ NAT IP เพื่อความปลอดภัยและประสิทธิภาพในการส่งข้อมูล\nออกแบบสถาปัตยกรรมการเชื่อมต่อ API ด้วย Kong Gateway รวมถึงการตั้งค่า Route, การจัดการ Plugin และการส่งข้อมูลแบบ End-to-End\nทำงานร่วมกับทีม SAP Functional และมีประสบการณ์กับหลายโมดูล เช่น FI_AP, FI_AR, FI_CO, FI_GL, FI_MM, FI_SD, ERP_MM และ ERP_SD\nออกแบบ Data Mapping และ Transformation ระหว่าง REST/JSON และ SOAP/XML เพื่อรองรับความต้องการทางธุรกิจที่หลากหลาย\nเชี่ยวชาญวิธีการเชื่อมต่อ SAP หลากหลายรูปแบบ ได้แก่ RFC, IDoc, Proxy Class, File และระบบ SAP ECC 6.0 และ SAP S/4HANA\nทดสอบ API และ Web Service ด้วย SoapUI, JMeter และ Postman เพื่อตรวจสอบความถูกต้องและประสิทธิภาพของระบบ\nดูแลและปรับแต่งระบบบน Linux, AWS Cloud และ Huawei Cloud เพื่อความพร้อมใช้งานสูงและประสิทธิภาพในการปฏิบัติงาน"
+      },
+      "logo": "assets/img/logo-cpf.png"
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-0",
+      "kind": {
+        "en": "Cloud migration",
+        "th": "การย้าย Cloud"
+      },
+      "title": {
+        "en": "AWS to Huawei Cloud — SAP PI/PO Interface Migration Support",
+        "th": "AWS สู่ Huawei Cloud — สนับสนุนการโยกย้าย Interface บน SAP PI/PO"
+      },
+      "role": {
+        "en": "Role: SAP PI/PO Interface & Connectivity Support",
+        "th": "บทบาท: สนับสนุน Interface และ Connectivity บน SAP PI/PO"
+      },
+      "tags": "SAP PI/PO, Kong Gateway, AWS, Huawei Cloud",
+      "summary": {
+        "en": "Supported SAP PI/PO interface readiness and connectivity during the migration of connected systems from AWS to Huawei Cloud.",
+        "th": "ดูแลความพร้อมของ Interface บน SAP PI/PO และการเชื่อมต่อที่เกี่ยวข้องกับโครงการย้ายระบบจาก AWS ไป Huawei Cloud"
+      },
+      "points": {
+        "en": "Reviewed interface dependencies and connection settings affected by the cloud migration.\nAdjusted SAP PI/PO interface configurations where required and verified connectivity to the target environment.\nWorked with infrastructure and network teams to investigate endpoint, firewall, NAT and IP allowlist requirements.\nTested API and file-based data exchanges, analysed message logs and resolved integration issues within the assigned scope.",
+        "th": "ตรวจสอบระบบที่เชื่อมต่อและ Configuration ของ Interface ที่ได้รับผลกระทบจากการย้าย Cloud\nปรับการตั้งค่า SAP PI/PO ในส่วนที่เกี่ยวข้อง และตรวจสอบ Connectivity ไปยังระบบปลายทาง\nทำงานร่วมกับทีม Infrastructure และ Network เพื่อตรวจสอบ Endpoint, Firewall, NAT และ IP Allowlist\nทดสอบการรับส่งข้อมูลผ่าน API และไฟล์ วิเคราะห์ Message Log และแก้ไขปัญหา Integration ในส่วนที่รับผิดชอบ"
+      },
+      "logo": ""
+    },
+    {
+      "id": "project-1",
+      "kind": {
+        "en": "Interface operations",
+        "th": "งาน Interface"
+      },
+      "title": {
+        "en": "E-Tax — Batch File / SFTP Interface Configuration & Application Support",
+        "th": "E-Tax — การตั้งค่า Interface แบบ Batch File / SFTP และสนับสนุนการใช้งาน"
+      },
+      "role": {
+        "en": "Scope: outbound interface configuration and dealer application support",
+        "th": "ขอบเขต: ตั้งค่า Interface ขาออก และสนับสนุนการใช้งานสำหรับ Dealer"
+      },
+      "tags": "SAP PI/PO, SFTP, Batch File, E-Tax",
+      "summary": {
+        "en": "Supported the outbound E-Tax interface flow from SAP PI/PO through batch file transfer via SFTP to the E-Tax system, alongside application support for dealers and business users.",
+        "th": "ดูแล Interface ขาออกจาก SAP PI/PO ไปยังระบบ E-Tax ผ่าน Batch File และ SFTP พร้อมสนับสนุนการใช้งาน Application สำหรับ Dealer และ Business User"
+      },
+      "points": {
+        "en": "Configured batch file/SFTP transfer settings for the outbound E-Tax interface and verified connectivity to the destination.\nChecked file delivery and processing status to trace issues between SAP PI/PO, the file transfer layer and the E-Tax application.\nInvestigated transfer failures and E-Tax transaction issues by reviewing configurations, available logs and application processing status.\nResolved configuration and connectivity issues within the assigned scope and coordinated with SAP, network and vendor teams when further changes were required.\nSupported interface testing and verified file delivery and application processing following configuration changes or incident resolution.\nProvided operational guidance to dealers and business users and followed up until affected transactions could resume.",
+        "th": "รับผิดชอบตั้งค่าการรับส่ง Batch File ผ่าน SFTP สำหรับ Interface ขาออกไปยัง E-Tax และตรวจสอบ Connectivity กับระบบปลายทาง\nตรวจสอบการส่งไฟล์และสถานะการประมวลผล เพื่อไล่หาปัญหาระหว่าง SAP PI/PO ส่วนรับส่งไฟล์ และ E-Tax Application\nวิเคราะห์ปัญหาการรับส่งไฟล์และรายการ E-Tax จาก Configuration, Log ที่เข้าถึงได้ และสถานะการทำงานของ Application\nลงมือแก้ไข Configuration และ Connectivity ในส่วนที่รับผิดชอบ พร้อมประสานงานกับทีม SAP, Network และ Vendor เมื่อจำเป็นต้องปรับแก้ส่วนอื่น\nสนับสนุนการทดสอบ Interface ตรวจสอบการส่งไฟล์และการประมวลผลหลังปรับ Configuration หรือแก้ไข Incident\nให้คำแนะนำแก่ Dealer และ Business User พร้อมติดตามจนรายการที่ได้รับผลกระทบสามารถดำเนินการต่อได้"
+      },
+      "logo": ""
+    },
+    {
+      "id": "project-2",
+      "kind": {
+        "en": "SAP transformation",
+        "th": "การเปลี่ยนระบบ SAP"
+      },
+      "title": {
+        "en": "SAP ECC to S/4HANA — Integration Development & Support",
+        "th": "SAP ECC สู่ S/4HANA — พัฒนาและสนับสนุนงาน Integration"
+      },
+      "role": {
+        "en": "Role: SAP Integration Development & Support",
+        "th": "บทบาท: พัฒนาและสนับสนุนงาน Integration บน SAP"
+      },
+      "tags": "SAP ECC, S/4HANA, PI/PO, SIT / UAT",
+      "summary": {
+        "en": "Contributed to the SAP integration workstream during the transition from ECC to S/4HANA, focusing on interfaces connecting SAP and non-SAP systems.",
+        "th": "มีส่วนร่วมในงาน Integration ของโครงการเปลี่ยนจาก SAP ECC เป็น S/4HANA โดยรับผิดชอบส่วนเชื่อมต่อระหว่าง SAP และ Non-SAP"
+      },
+      "points": {
+        "en": "Gathered interface requirements and reviewed data flows and mappings with SAP Functional and ABAP teams.\nDeveloped and adjusted SAP PI/PO services, including API and batch file interfaces, business logic and communication configurations.\nTested payloads, mappings and connectivity during SIT/UAT, investigated defects and implemented integration fixes.\nSupported go-live and production operations by monitoring message processing, analysing errors and coordinating issue resolution.",
+        "th": "รับ Requirement และทบทวน Flow กับ Data Mapping ร่วมกับทีม Functional และ ABAP\nพัฒนาและปรับ Service บน SAP PI/PO ทั้ง API และ Batch File รวมถึง Business Logic และการตั้งค่าการเชื่อมต่อ\nทดสอบ Payload, Mapping และ Connectivity ในช่วง SIT/UAT พร้อมวิเคราะห์และแก้ไข Defect\nสนับสนุน Go-live และดูแลต่อบน Production ตรวจสอบ Message วิเคราะห์ Error และประสานงานแก้ไขปัญหา"
+      },
+      "logo": ""
+    },
+    {
+      "id": "project-3",
+      "kind": {
+        "en": "Global rollout",
+        "th": "การขยายระบบต่างประเทศ"
+      },
+      "title": {
+        "en": "SAP S/4HANA Overseas Migration — Integration Development & Support",
+        "th": "การโยกย้าย SAP S/4HANA ต่างประเทศ — พัฒนาและสนับสนุนงาน Integration"
+      },
+      "role": {
+        "en": "Scope: interface development, connectivity and production handover",
+        "th": "ขอบเขต: พัฒนา Interface, Connectivity และส่งมอบสู่ Production"
+      },
+      "tags": "S/4HANA, SAP PI/PO, Batch File, Go-live",
+      "summary": {
+        "en": "Contributed to the SAP integration workstream for an overseas S/4HANA migration project, supporting interfaces between SAP and connected non-SAP systems.",
+        "th": "มีส่วนร่วมในงาน SAP Integration ของโครงการย้ายระบบไปยัง S/4HANA สำหรับธุรกิจต่างประเทศ โดยดูแล Interface ระหว่าง SAP และระบบ Non-SAP ที่เกี่ยวข้อง"
+      },
+      "points": {
+        "en": "Reviewed interface requirements, data flows and mappings with SAP Functional and ABAP teams to identify changes required for the migration.\nDeveloped and adjusted API and batch file transfer services on SAP PI/PO, including mapping logic, processing conditions and communication settings.\nConfigured and verified interface connectivity to the target systems, coordinating with infrastructure and network teams where required.\nSupported SIT/UAT by testing payloads and business scenarios, investigating defects and correcting mappings and configurations.\nSupported go-live and production operations through message monitoring, log analysis and integration issue resolution.",
+        "th": "ทบทวน Requirement, Data Flow และ Mapping ร่วมกับทีม Functional และ ABAP เพื่อระบุส่วนที่ต้องปรับให้รองรับระบบใหม่\nพัฒนาและปรับ Service แบบ API และ Batch File Transfer บน SAP PI/PO รวมถึง Mapping Logic เงื่อนไขการประมวลผล และการตั้งค่าการรับส่งข้อมูล\nตั้งค่าและตรวจสอบ Connectivity กับระบบปลายทาง พร้อมประสานงานกับทีม Infrastructure และ Network ในส่วนที่เกี่ยวข้อง\nสนับสนุน SIT/UAT ทดสอบ Payload และเงื่อนไขทางธุรกิจ วิเคราะห์ Defect และปรับแก้ Mapping กับ Configuration\nสนับสนุน Go-live และดูแลต่อบน Production ตรวจสอบ Message วิเคราะห์ Log และแก้ไขปัญหา Integration"
+      },
+      "logo": ""
+    }
+  ],
+  "credentials": [
+    {
+      "id": "cert-0",
+      "year": "2025",
+      "title": {
+        "en": "HCCDA — Tech Essentials on Huawei Cloud",
+        "th": "HCCDA — Tech Essentials on Huawei Cloud"
+      },
+      "issuer": {
+        "en": "Huawei Cloud",
+        "th": "Huawei Cloud"
+      }
+    },
+    {
+      "id": "cert-1",
+      "year": "2024",
+      "title": {
+        "en": "Automated API Testing & Azure Pipeline Integration with Postman",
+        "th": "Automated API Testing & Azure Pipeline Integration with Postman"
+      },
+      "issuer": {
+        "en": "Postman · Azure Pipelines",
+        "th": "Postman · Azure Pipelines"
+      }
+    },
+    {
+      "id": "cert-2",
+      "year": "ISO",
+      "title": {
+        "en": "ISO/IEC 20000-1 — IT Service Management",
+        "th": "ISO/IEC 20000-1 — การจัดการบริการไอที"
+      },
+      "issuer": {
+        "en": "ISO/IEC",
+        "th": "ISO/IEC"
+      }
+    },
+    {
+      "id": "cert-3",
+      "year": "ISO",
+      "title": {
+        "en": "ISO/IEC 27001 — Information Security Management",
+        "th": "ISO/IEC 27001 — การจัดการความมั่นคงปลอดภัยสารสนเทศ"
+      },
+      "issuer": {
+        "en": "ISO/IEC",
+        "th": "ISO/IEC"
+      }
+    },
+    {
+      "id": "cert-4",
+      "year": "2023",
+      "title": {
+        "en": "PDPA Awareness",
+        "th": "PDPA Awareness — ความตระหนักด้าน PDPA"
+      },
+      "issuer": {
+        "en": "Personal Data Protection Act",
+        "th": "Personal Data Protection Act"
+      }
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-0",
+      "period": "2016 — 2022",
+      "title": {
+        "en": "B.Eng. Computer Engineering",
+        "th": "วิศวกรรมศาสตรบัณฑิต สาขาวิศวกรรมคอมพิวเตอร์"
+      },
+      "school": {
+        "en": "Rangsit University",
+        "th": "มหาวิทยาลัยรังสิต"
+      }
+    },
+    {
+      "id": "edu-1",
+      "period": "2010 — 2016",
+      "title": {
+        "en": "Science–Math Programme",
+        "th": "แผนการเรียนวิทยาศาสตร์–คณิตศาสตร์"
+      },
+      "school": {
+        "en": "Suankularb Wittayalai Pathumthani School",
+        "th": "โรงเรียนสวนกุหลาบวิทยาลัย ปทุมธานี"
+      }
+    }
+  ]
+}

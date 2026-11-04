@@ -6,3 +6,7 @@ desktop.ini
 # Local tools
 node_modules/
 *.log
+
+# Private local editor state (never publish)
+.local/
+__pycache__/

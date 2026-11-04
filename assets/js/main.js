@@ -48,7 +48,10 @@
       action: 'Action',
       switchLang: 'Switch to Thai',
       copyEmail: 'Copy email',
-      printAction: 'Download PDF',
+      printAction: 'Download PDF (EN + TH)',
+      downloading: 'Downloading the EN and TH PDF versions…',
+      viewProfile: 'View full profile photo of Panuwat Puakroongrueng',
+      closeProfile: 'Close profile photo',
       backTop: 'Back to top',
     },
     th: {
@@ -69,7 +72,10 @@
       action: 'คำสั่ง',
       switchLang: 'สลับเป็นภาษาอังกฤษ',
       copyEmail: 'คัดลอกอีเมล',
-      printAction: 'ดาวน์โหลด PDF',
+      printAction: 'ดาวน์โหลด PDF (EN + TH)',
+      downloading: 'กำลังดาวน์โหลดไฟล์ PDF ทั้งฉบับ EN และ TH…',
+      viewProfile: 'ดูรูปโปรไฟล์ขนาดเต็มของ ภานุวัฒน์ พวกรุ่งเรือง',
+      closeProfile: 'ปิดรูปโปรไฟล์',
       backTop: 'กลับขึ้นด้านบน',
     },
   };
@@ -108,7 +114,11 @@
       const open = header.classList.contains('menu-open');
       menuToggle.setAttribute('aria-label', open ? labels.menuClose : labels.menuOpen);
     }
-    document.querySelectorAll('.print-btn').forEach((btn) => btn.setAttribute('aria-label', labels.print));
+    document.querySelectorAll('.print-btn').forEach((btn) => btn.setAttribute('aria-label', labels.printAction));
+    const profileTrigger = document.querySelector('[data-lightbox-open]');
+    if (profileTrigger) profileTrigger.setAttribute('aria-label', labels.viewProfile);
+    const lightboxClose = document.querySelector('.lightbox-close');
+    if (lightboxClose) lightboxClose.setAttribute('aria-label', labels.closeProfile);
     if (cmdkTrigger) cmdkTrigger.setAttribute('aria-label', labels.quickJump);
     if (cmdkInput) {
       cmdkInput.placeholder = labels.placeholder;
@@ -516,14 +526,144 @@
   });
 
   /* ------------------------------------------------------------
+     Hero integration topology (simulated outages)
+     ------------------------------------------------------------ */
+  const topology = document.querySelector('[data-topology]');
+  if (topology) {
+    const nodes = Array.from(topology.querySelectorAll('.tp-node'));
+    const off = new Set();
+    const routes = [
+      {nodes:['client','kong','wd','pi','ecc'],edges:['api-in','gateway','dispatch','ecc-in']},
+      {nodes:['client','pi','ecc'],edges:['direct-in','ecc-in']},
+      {nodes:['client','sftp','pi','ecc'],edges:['file-in','file-send','ecc-in']},
+      {nodes:['ecc','pi','client'],edges:['ecc-out','direct-out']},
+      {nodes:['ecc','pi','client'],edges:['ecc-out','direct-out']},
+      {nodes:['ecc','pi','sftp','client'],edges:['ecc-out','file-receive','file-out']},
+      {nodes:['ecc','pi','s4'],edges:['ecc-out','s4-in']},
+      {nodes:['s4','pi','ecc'],edges:['s4-out','ecc-in']},
+    ];
+    // Inbound and outbound also support S/4HANA as the SAP endpoint.
+    routes.slice(0,6).forEach(route=>routes.push({nodes:route.nodes.map(id=>id==='ecc'?'s4':id),edges:route.edges.map(id=>id.replace('ecc-','s4-'))}));
+    const paths = Array.from(topology.querySelectorAll('.tp-path')).map(path=>({path,id:path.id.replace('tp-path-',''),length:path.getTotalLength()}));
+    const packets=[];
+    paths.forEach((segment,index)=>{
+      const tone=segment.path.classList.contains('tp-path-file')?'file':segment.path.classList.contains('tp-path-core')?'core':'api';
+      for(let i=0;i<2;i++){
+        const el=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        el.setAttribute('r','2.6');el.setAttribute('class','tp-packet tp-packet-'+tone);
+        topology.querySelector('.tp-packets').append(el);
+        packets.push({el,segment,t:(i/2+index*.08)%1,speed:tone==='file'?34:38});
+      }
+    });
+    function blocked(segment){return !routes.some(route=>route.edges.includes(segment.id)&&route.nodes.every(id=>!off.has(id)));}
+    const reset=document.querySelector('[data-topology-reset]');
+    function render(){
+      nodes.forEach(node=>{const down=off.has(node.dataset.node);node.classList.toggle('is-off',down);node.setAttribute('aria-pressed',String(down));});
+      paths.forEach(segment=>{segment.path.classList.toggle('is-down',blocked(segment));});
+      packets.forEach(packet=>packet.el.classList.toggle('is-stalled',blocked(packet.segment)));
+      const badge=document.querySelector('[data-topology-status]');badge.classList.toggle('is-degraded',off.size>0);badge.querySelector('.live-label').textContent=off.size?'DEGRADED':'LIVE';
+      const log=document.querySelector('[data-topology-log]');log.textContent='';
+      const item=document.createElement('li');item.className=off.size?'topology-incident':'topology-ok';
+      item.textContent=off.size?(off.has('sftp')?'SFTP connection failed':'HTTP 503 Service Unavailable')+' · '+Array.from(off).map(id=>topology.querySelector('[data-node="'+id+'"] .tp-node-name').textContent).join(', '):'Inbound ↔ Outbound · ECC ↔ S/4HANA · All flows healthy';
+      log.append(item);reset.disabled=!off.size;
+      document.querySelector('[data-topology-foot-en]').textContent=(nodes.length-off.size)+' / '+nodes.length+' online · all flows in one landscape';
+      document.querySelector('[data-topology-foot-th]').textContent='ออนไลน์ '+(nodes.length-off.size)+' / '+nodes.length+' · ทุก Flow ในภาพเดียว';
+    }
+    nodes.forEach(node=>{
+      const toggle=()=>{const id=node.dataset.node;if(off.has(id))off.delete(id);else off.add(id);render();};
+      node.addEventListener('click',toggle);node.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});
+    });
+    reset.addEventListener('click',()=>{off.clear();render();});
+    let last=0;
+    function animate(now){
+      const delta=last?Math.min(72,now-last):16;last=now;
+      packets.forEach(packet=>{
+        if(!reduceMotion&&!blocked(packet.segment))packet.t=(packet.t+packet.speed*delta/1000/packet.segment.length)%1;
+        const point=packet.segment.path.getPointAtLength(packet.t*packet.segment.length);
+        packet.el.setAttribute('cx',point.x.toFixed(2));packet.el.setAttribute('cy',point.y.toFixed(2));
+      });
+      if(!reduceMotion)requestAnimationFrame(animate);
+    }
+    render();requestAnimationFrame(animate);
+  }
+
+  /* ------------------------------------------------------------
+     Profile lightbox
+     ------------------------------------------------------------ */
+  const lightbox = document.getElementById('profile-lightbox');
+  const lightboxTrigger = document.querySelector('[data-lightbox-open]');
+  let lightboxLastFocused = null;
+
+  function openLightbox() {
+    if (!lightbox || !lightbox.hidden) return;
+    if (cmdk && !cmdk.hidden) closeCmdk();
+    lightboxLastFocused = document.activeElement;
+    lightbox.hidden = false;
+    body.classList.add('lightbox-open');
+    const closeButton = lightbox.querySelector('.lightbox-close');
+    if (closeButton) closeButton.focus({ preventScroll: true });
+  }
+
+  function closeLightbox() {
+    if (!lightbox || lightbox.hidden) return;
+    lightbox.hidden = true;
+    body.classList.remove('lightbox-open');
+    const restoreTarget = lightboxLastFocused && lightboxLastFocused !== body ? lightboxLastFocused : lightboxTrigger;
+    if (restoreTarget && typeof restoreTarget.focus === 'function') {
+      restoreTarget.focus({ preventScroll: true });
+    }
+  }
+
+  if (lightboxTrigger) {
+    lightboxTrigger.addEventListener('click', openLightbox);
+  }
+
+  if (lightbox) {
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach((element) => {
+      element.addEventListener('click', closeLightbox);
+    });
+
+    lightbox.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      event.preventDefault();
+      const closeButton = lightbox.querySelector('.lightbox-close');
+      if (closeButton) closeButton.focus();
+    });
+  }
+
+  /* ------------------------------------------------------------
      Print / download PDF
      ------------------------------------------------------------ */
-  document.querySelectorAll('[data-print]').forEach((button) => {
-    button.addEventListener('click', () => {
+  const PDF_FILES = [
+    { href: 'assets/pdf/CV_Panuwat_Puakroongrueng_EN_Updated.pdf', filename: 'CV_Panuwat_Puakroongrueng_EN_Updated.pdf' },
+    { href: 'assets/pdf/CV_Panuwat_Puakroongrueng_TH_Updated.pdf', filename: 'CV_Panuwat_Puakroongrueng_TH_Updated.pdf' },
+  ];
+
+  function downloadPdfs() {
+    if (window.CVEditor) {
       closeMenu();
-      if (!cmdk.hidden) closeCmdk();
-      window.print();
+      if (cmdk && !cmdk.hidden) closeCmdk();
+      return window.CVEditor.download();
+    }
+    closeMenu();
+    if (!cmdk.hidden) closeCmdk();
+    showToast(ui().downloading);
+
+    PDF_FILES.forEach((file, index) => {
+      window.setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = file.href;
+        link.download = file.filename;
+        link.rel = 'noopener';
+        body.appendChild(link);
+        link.click();
+        link.remove();
+      }, index * 400);
     });
+  }
+
+  document.querySelectorAll('[data-print]').forEach((button) => {
+    button.addEventListener('click', downloadPdfs);
   });
 
   window.addEventListener('beforeprint', () => {
@@ -537,6 +677,7 @@
   const SECTION_COMMANDS = [
     { id: 'about', en: 'Overview', th: 'ภาพรวม', icon: 'i-activity' },
     { id: 'experience', en: 'Experience', th: 'ประสบการณ์', icon: 'i-server' },
+    { id: 'projects', en: 'Projects', th: 'ผลงานโครงการ', icon: 'i-briefcase' },
     { id: 'skills', en: 'Tech stack', th: 'ทักษะ', icon: 'i-layers' },
     { id: 'credentials', en: 'Credentials', th: 'ใบรับรอง', icon: 'i-award' },
     { id: 'contact', en: 'Contact', th: 'ติดต่อ', icon: 'i-mail' },
@@ -587,7 +728,7 @@
         label: labels.printAction,
         hint: labels.action,
         icon: 'i-download',
-        run: () => { closeCmdk(); window.print(); },
+        run: () => { closeCmdk(); downloadPdfs(); },
       },
       {
         en: 'Copy email',
@@ -596,7 +737,7 @@
         hint: labels.action,
         icon: 'i-copy',
         run: async () => {
-          const success = await copyText(EMAIL);
+          const success = await copyText(window.CVEditor?.getEmail() || EMAIL);
           showToast(success ? ui().copied : ui().copyFailed);
         },
         keepOpen: true,
@@ -667,6 +808,7 @@
 
   function openCmdk() {
     if (!cmdk) return;
+    if (lightbox && !lightbox.hidden) closeLightbox();
     lastFocused = document.activeElement;
     cmdk.hidden = false;
     body.style.overflow = 'hidden';
@@ -763,7 +905,10 @@
       return;
     }
     if (event.key === 'Escape') {
-      if (!cmdk.hidden) {
+      if (lightbox && !lightbox.hidden) {
+        event.preventDefault();
+        closeLightbox();
+      } else if (!cmdk.hidden) {
         event.preventDefault();
         closeCmdk();
       } else if (header.classList.contains('menu-open')) {
