@@ -262,8 +262,6 @@
       loginButton.setAttribute('aria-label','เจ้าของเว็บ / Owner sign in');
       notifyButton=button(q('.nav-actions'),'♧',notifications,'icon-btn cv-notify');notifyButton.hidden=true;
       render();await poll();setInterval(poll,5000);
-      // Counter animation may still be finishing on initial load.
-      setTimeout(()=>{if(data) {const c=qa('.counter');c[0].textContent=data.overview.years;c[1].textContent=data.overview.companies;c[3].textContent=data.credentials.length;}},1500);
     }catch(e){console.info('Local editing is unavailable; showing the static CV.');}
   }
   init();

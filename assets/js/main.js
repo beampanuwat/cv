@@ -285,31 +285,31 @@
   /* ------------------------------------------------------------
      Counter animation
      ------------------------------------------------------------ */
+  const counterFrames = new WeakMap();
   function animateCounter(el) {
-    const target = Number(el.dataset.count || 0);
-    if (!target) return;
+    window.cancelAnimationFrame(counterFrames.get(el));
     if (reduceMotion) {
-      el.textContent = String(target);
+      el.textContent = String(Number(el.dataset.count || 0));
       return;
     }
-    const duration = 1150;
+    const duration = 1500;
+    el.textContent = '0';
     const start = performance.now();
     function frame(now) {
       const t = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = String(Math.round(eased * target));
-      if (t < 1) window.requestAnimationFrame(frame);
+      el.textContent = String(Math.round(eased * Number(el.dataset.count || 0)));
+      if (t < 1) counterFrames.set(el, window.requestAnimationFrame(frame));
     }
-    window.requestAnimationFrame(frame);
+    counterFrames.set(el, window.requestAnimationFrame(frame));
   }
 
   const counters = Array.from(document.querySelectorAll('.counter'));
   if ('IntersectionObserver' in window && !reduceMotion) {
     const counterObserver = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        animateCounter(entry.target);
-        obs.unobserve(entry.target);
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) animateCounter(entry.target);
+        else window.cancelAnimationFrame(counterFrames.get(entry.target));
       });
     }, { threshold: 0.5 });
     counters.forEach((counter) => counterObserver.observe(counter));

@@ -1,0 +1,49 @@
+/* Signals echo the integration console without competing with the CV text. */
+.section-signal { width:105px; height:26px; flex:none; margin-left:.25rem; color:var(--accent); overflow:visible; }
+.section-signal path { fill:none; stroke:currentColor; stroke-width:1.35; stroke-linecap:round; stroke-linejoin:round; opacity:.5; }
+.section-signal circle { fill:var(--surface, #0c1827); stroke:currentColor; stroke-width:1.5; }
+.eyebrow:has(.section-signal)::after { display:none; }
+@media (prefers-reduced-motion:no-preference) {
+  .section-motion.motion-enter:not(.section-signal) { animation:section-arrive .65s var(--ease) var(--motion-delay,0ms) both; }
+  .section-signal.motion-active path { stroke-dasharray:45 90; animation:signal-travel 5s linear infinite; }
+  .section-signal.motion-active circle { animation:signal-node 3.6s ease-in-out infinite; }
+  .section-signal circle:nth-of-type(2) { animation-delay:.6s; }
+  .section-signal circle:nth-of-type(3) { animation-delay:1.2s; }
+  #experience .job.motion-enter .job-logo { animation:logo-arrive .7s var(--ease) var(--motion-delay,0ms) both; }
+  #about .competency.motion-enter .competency-icon { animation:icon-connect .7s var(--ease) var(--motion-delay,0ms) both; }
+  #projects .project.motion-enter .project-index { animation:icon-connect .7s var(--ease) var(--motion-delay,0ms) both; }
+  #credentials .cert.motion-enter .cert-icon { animation:credential-arrive .85s var(--ease) var(--motion-delay,0ms) both; }
+  #contact .contact-panel.motion-active .contact-glow { animation:contact-breathe 7s ease-in-out infinite; }
+  .section-motion:not(.motion-active),.section-motion:not(.motion-active) * { animation-play-state:paused; }
+  .motion-paused .section-motion,.motion-paused .section-motion * { animation-play-state:paused!important; }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .competency,.cert,.edu { transition:background .25s ease, border-color .25s ease; }
+  .competency:hover,.cert:hover,.edu:hover { background:color-mix(in srgb,var(--accent) 5%,transparent); }
+  .job-logo img { transition:transform .35s var(--ease); }
+  .job:hover .job-logo img { transform:scale(1.06); }
+}
+@keyframes section-arrive { from { opacity:.25; translate:0 12px; } to { opacity:1; translate:0 0; } }
+@keyframes signal-travel { from {stroke-dashoffset:135;} to {stroke-dashoffset:0;} }
+@keyframes signal-node { 0%,100% {opacity:.5;} 45%,65% {opacity:1;fill:var(--accent);} }
+@keyframes logo-arrive { from {opacity:.4;scale:.95;} to {opacity:1;scale:1;} }
+@keyframes icon-connect { from {opacity:.4;translate:0 5px;} to {opacity:1;translate:0 0;} }
+@keyframes credential-arrive { from {opacity:.3;rotate:-18deg;} to {opacity:1;rotate:0deg;} }
+@keyframes contact-breathe { 0%,100% {opacity:.3;scale:.97;} 50% {opacity:.6;scale:1.03;} }
+@media (max-width:600px) {
+  .section-signal {width:80px;height:22px;}
+  @media (prefers-reduced-motion:no-preference) {
+    .section-motion.motion-enter:not(.section-signal) {animation-duration:.45s;animation-delay:0ms;}
+    .section-signal.motion-active path {animation-duration:7s;}
+    #contact .contact-panel.motion-active .contact-glow {animation:none;}
+  }
+}
+@media (max-width:480px) {
+  /* Keep the header usable on touch screens, including owner controls. */
+  .nav .brand-name {display:none;}
+  .nav-actions {gap:.3rem;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .section-motion,.section-motion *, .section-signal * {animation:none!important;translate:none!important;scale:none!important;rotate:none!important;}
+}
+@media print { .section-signal {display:none;} .section-motion {animation:none!important;opacity:1!important;translate:none!important;} }
