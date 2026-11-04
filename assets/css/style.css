@@ -57,7 +57,7 @@ html[data-theme="light"] {
   --on-accent: #ffffff;
 }
 
-/* ---------- Reset / base ---------- */
+/* ---------- Reset / base ----------*/
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -445,6 +445,31 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   animation: pulse 2.4s ease-out infinite;
 }
 
+.hero-intro {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  flex-wrap: wrap;
+}
+.hero-avatar {
+  width: clamp(76px, 8vw, 104px);
+  aspect-ratio: 1 / 1;
+  flex: none;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 8px 24px rgba(2, 8, 23, .32);
+}
+.hero-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
 .hero h1 {
   margin-top: 1.1rem;
   font-size: clamp(3rem, 7.2vw, 5.4rem);
@@ -465,6 +490,32 @@ html[lang="th"] .hero h1 {
   color: transparent;
   animation: shimmer 9s ease-in-out infinite;
 }
+
+.hero-role-row {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+.hero-role-row .hero-role { margin-top: 0; }
+.sap-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: .32rem .52rem;
+  /*border: 1px solid rgba(255, 255, 255, .14);*/
+  border-radius: 9px;
+  /*background: #fff;*/
+  box-shadow: 0 6px 18px rgba(2, 8, 23, .2);
+}
+.sap-badge img {
+  display: block;
+  /*width: 46px;*/
+  height: auto;
+}
+html[data-theme="light"] .sap-badge { border-color: var(--border); }
 
 .hero-role {
   margin-top: 1.2rem;
@@ -905,7 +956,7 @@ html[lang="th"] .section h2 { line-height: 1.3; }
   height: 54px;
   flex: none;
   border-radius: 15px;
-  border: 1px solid var(--border-strong);
+  /*border: 1px solid var(--border-strong);*/
   background:
     radial-gradient(120% 120% at 15% 0%, rgba(56, 189, 248, .28), transparent 55%),
     linear-gradient(145deg, #0b1527, #060a12);
@@ -914,6 +965,21 @@ html[lang="th"] .section h2 { line-height: 1.3; }
   font-size: 1rem;
   font-weight: 600;
   box-shadow: inset 0 0 20px rgba(56, 189, 248, .12);
+}
+.avatar-photo {
+  width: 96px;
+  height: 120px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(2, 8, 23, .28);
+}
+.avatar-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 .fact-name { font-size: .86rem; font-weight: 700; line-height: 1.35; }
 .fact-role { margin-top: .1rem; font-size: .7rem; line-height: 1.45; color: var(--muted); }
@@ -1036,16 +1102,20 @@ html[lang="th"] .section h2 { line-height: 1.3; }
 .job-logo {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 58px;
+  height: 48px;
   flex: none;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  font-family: var(--font-mono);
-  font-size: .66rem;
-  font-weight: 600;
-  color: var(--accent);
+  padding: 7px 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: #fff;
+}
+.job-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .job-tags {
   display: flex;
@@ -1697,7 +1767,7 @@ html.js .reveal.is-visible {
   .timeline::before { left: .4rem; }
   .job::before { left: -1.3rem; }
   .job-top { gap: .7rem; }
-  .job-logo { width: 38px; height: 38px; font-size: .6rem; }
+  .job-logo { width: 46px; height: 40px; padding: 5px 6px; }
   .skill-panel { min-height: 0; }
   .contact-email { font-size: .78rem; }
   .cmdk { padding-top: 8vh; }
@@ -1775,7 +1845,7 @@ html.js .reveal.is-visible {
   body::before, body::after,
   .site-header, .scroll-progress, .skip-link, .hero-visual, .stats,
   .hero-actions, .hero-tags, .cmdk, .toast, .back-top, .footer-note,
-  .contact-glow, .contact-actions .copy-btn, .job-logo, .contact-roles {
+  .contact-glow, .contact-actions .copy-btn, .contact-roles {
     display: none !important;
   }
   /* The scroll-reveal animation must not hide content on paper. */
@@ -1791,7 +1861,14 @@ html.js .reveal.is-visible {
   .hero h1 { font-size: 23pt; line-height: 1.05; margin-top: 6pt; }
   html[lang="th"] .hero h1 { font-size: 21pt; }
   .status-pill { font-size: 7pt; padding: 2pt 6pt; }
+  .hero-intro { gap: 6pt; }
+  .hero-avatar { width: 15mm; height: 15mm; padding: .6pt; box-shadow: none; }
+  .hero-avatar img { border-width: 1pt; }
+  .hero-role-row { margin-top: 4pt; gap: 6pt; }
+  .hero-role-row .hero-role { margin-top: 0; }
   .hero-role { margin-top: 4pt; font-size: 10.5pt; }
+  .sap-badge { padding: 2pt 4pt; border: 1px solid #d7dde7; border-radius: 3pt; box-shadow: none; }
+  .sap-badge img { width: 22pt; }
   .hero-summary { margin-top: 5pt; font-size: 9pt; line-height: 1.5; max-width: none; }
   .hero-meta { margin-top: 6pt; font-size: 8pt; gap: 3pt 12pt; }
   .section { padding: 12pt 0 0; }
@@ -1822,6 +1899,15 @@ html.js .reveal.is-visible {
   .timeline { padding-left: 0; }
   .timeline::before, .job::before { display: none; }
   .job { margin-top: 6pt; padding: 8pt; break-inside: avoid; }
+  .job-logo {
+    width: 30pt;
+    height: 24pt;
+    padding: 2pt 3pt;
+    border: 1px solid #e2e8f0;
+    border-radius: 4pt;
+    background: #fff;
+  }
+  .job-logo img { width: 100%; height: 100%; object-fit: contain; }
   .job:first-child { border-color: #cbd5e1; background: #fff; }
   .job-company { font-size: 11.5pt; }
   .job-period { font-size: 7pt; }
