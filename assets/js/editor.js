@@ -189,7 +189,7 @@
     const date=new Date(data.availability.updated);
     ['en','th'].forEach(l=>q('.lang-'+l,time).textContent=new Intl.DateTimeFormat(l==='th'?'th-TH':'en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Bangkok'}).format(date));
     const facts=qa('.fact-list > div');bi(q('dd',facts[0]),data.contact.location);bi(q('dd',facts[1]),data.overview.experience);bi(q('dd',facts[3]),availability);
-    qa('.brand-mark img,.avatar-photo img,#profile-lightbox img').forEach(img=>img.src=data.profile);
+    qa('.brand-mark img,.avatar-photo img,#profile-lightbox img,.welcome-emblem img').forEach(img=>img.src=data.profile);
     const counters=qa('.counter');[data.overview.years,data.overview.companies,'9',String(data.credentials.length)].forEach((value,i)=>{counters[i].dataset.count=value;counters[i].textContent=value;});
     qa('a[href^="mailto:"]').forEach(a=>{a.href='mailto:'+data.contact.email;const span=q('span',a);if(span)span.textContent=data.contact.email;else a.textContent=data.contact.email;});
     qa('[data-copy]').forEach(b=>b.dataset.copy=data.contact.email);
