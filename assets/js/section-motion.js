@@ -19,7 +19,7 @@
     svg.classList.add('section-signal');svg.innerHTML=markup;heading.append(svg);
   });
 
-  const selector='.competency,.job,.project,.skill-detail,.skill-details > li,.cert,.edu,.fact-card,.contact-panel';
+  const selector='.competency,.job,.project,.skill-detail,.skill-details > li,.cert,.edu,.fact-card,.contact-panel,.section-art';
   let observer, queued=false;
   const active=new Set();
   function register() {

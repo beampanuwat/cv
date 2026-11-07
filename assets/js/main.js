@@ -49,7 +49,9 @@
       switchLang: 'Switch to Thai',
       copyEmail: 'Copy email',
       printAction: 'Download CV (EN + TH)',
-      downloading: 'Downloading the EN and TH PDF versions…',
+      downloadCompanyPlaceholder: 'Acme Co., Ltd.',
+      downloadStarted: 'Your CV download has started — EN + TH',
+      downloadClose: 'Close',
       viewProfile: 'View full profile photo of Panuwat Puakroongrueng',
       closeProfile: 'Close profile photo',
       backTop: 'Back to top',
@@ -73,7 +75,9 @@
       switchLang: 'สลับเป็นภาษาอังกฤษ',
       copyEmail: 'คัดลอกอีเมล',
       printAction: 'ดาวน์โหลด CV (EN + TH)',
-      downloading: 'กำลังดาวน์โหลดไฟล์ PDF ทั้งฉบับ EN และ TH…',
+      downloadCompanyPlaceholder: 'บริษัท ตัวอย่าง จำกัด',
+      downloadStarted: 'เริ่มดาวน์โหลด CV แล้ว — EN + TH',
+      downloadClose: 'ปิด',
       viewProfile: 'ดูรูปโปรไฟล์ขนาดเต็มของ ภานุวัฒน์ พวกรุ่งเรือง',
       closeProfile: 'ปิดรูปโปรไฟล์',
       backTop: 'กลับขึ้นด้านบน',
@@ -119,6 +123,10 @@
     if (profileTrigger) profileTrigger.setAttribute('aria-label', labels.viewProfile);
     const lightboxClose = document.querySelector('.lightbox-close');
     if (lightboxClose) lightboxClose.setAttribute('aria-label', labels.closeProfile);
+    const downloadClose = document.querySelector('.cv-download-close');
+    if (downloadClose) downloadClose.setAttribute('aria-label', labels.downloadClose);
+    const downloadCompany = document.getElementById('cv-download-company');
+    if (downloadCompany) downloadCompany.placeholder = labels.downloadCompanyPlaceholder;
     if (cmdkTrigger) cmdkTrigger.setAttribute('aria-label', labels.quickJump);
     if (cmdkInput) {
       cmdkInput.placeholder = labels.placeholder;
@@ -597,6 +605,7 @@
   function openLightbox() {
     if (!lightbox || !lightbox.hidden) return;
     if (cmdk && !cmdk.hidden) closeCmdk();
+    if (downloadDialog && !downloadDialog.hidden) closeDownload();
     lightboxLastFocused = document.activeElement;
     lightbox.hidden = false;
     body.classList.add('lightbox-open');
@@ -632,33 +641,155 @@
   }
 
   /* ------------------------------------------------------------
-     Print / download PDF
+     Download CV dialog
      ------------------------------------------------------------ */
-  const PDF_FILES = [
-    { href: 'assets/pdf/CV_Panuwat_Puakroongrueng_EN_Updated.pdf', filename: 'CV_Panuwat_Puakroongrueng_EN_Updated.pdf' },
-    { href: 'assets/pdf/CV_Panuwat_Puakroongrueng_TH_Updated.pdf', filename: 'CV_Panuwat_Puakroongrueng_TH_Updated.pdf' },
-  ];
+  const downloadDialog = document.getElementById('cv-download');
+  const downloadInput = document.getElementById('cv-download-company');
+  const downloadLink = document.getElementById('cv-download-link');
+  const DOWNLOAD_ZIP = 'assets/download/CV_Panuwat_Puakroongrueng_EN_TH.zip';
+  const DOWNLOAD_ZIP_NAME = 'CV_Panuwat_Puakroongrueng_EN_TH.zip';
+  // FormSubmit needs no account: the owner confirms the first notification once.
+  const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/beam_panuwat@hotmail.com';
+  let downloadLastFocused = null;
+  let downloadNotifyLock = 0;
+
+  function openDownload() {
+    if (!downloadDialog) return;
+    closeMenu();
+    if (cmdk && !cmdk.hidden) closeCmdk();
+    if (lightbox && !lightbox.hidden) closeLightbox();
+    downloadLastFocused = document.activeElement;
+    downloadDialog.hidden = false;
+    body.classList.add('download-open');
+    window.requestAnimationFrame(() => {
+      const card = downloadDialog.querySelector('.cv-download-card');
+      if (card) card.focus({ preventScroll: true });
+    });
+  }
+
+  function closeDownload() {
+    if (!downloadDialog || downloadDialog.hidden) return;
+    downloadDialog.hidden = true;
+    body.classList.remove('download-open');
+    if (downloadInput) downloadInput.value = '';
+    const restoreTarget = downloadLastFocused && downloadLastFocused !== body && document.contains(downloadLastFocused) ? downloadLastFocused : null;
+    if (restoreTarget && typeof restoreTarget.focus === 'function') {
+      restoreTarget.focus({ preventScroll: true });
+    } else if (downloadDialog.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
+  }
+
+  function formatNotificationTime(date) {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Bangkok',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(date);
+    const get = (type) => (parts.find((part) => part.type === type) || {}).value || '';
+    return {
+      date: `${get('day')}/${get('month')}/${get('year')}`,
+      time: `${get('hour')}:${get('minute')}:${get('second')}`,
+    };
+  }
+
+  function notifyDownload(company) {
+    const stamp = Date.now();
+    if (stamp - downloadNotifyLock < 3000) return;
+    downloadNotifyLock = stamp;
+
+    const { date, time } = formatNotificationTime(new Date());
+    const name = String(company || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim() || 'ไม่ระบุชื่อบริษัท';
+    const page = `${window.location.origin}${window.location.pathname}`;
+    const payload = new URLSearchParams();
+    // Subject carries the report at a glance: who, and when in Thai time.
+    payload.set('_subject', `CV ถูกดาวน์โหลด: ${name} — ${date} ${time} น.`);
+    payload.set('_template', 'table');
+    payload.set('_captcha', 'false');
+    payload.set('_url', page);
+    payload.set('_honey', '');
+    // Separate rows so the notification reads as a report: who did what, where, when.
+    payload.set('บริษัทที่ดาวน์โหลด', name);
+    payload.set('สิ่งที่ทำ', 'ดาวน์โหลด CV ผ่านปุ่ม Download CV (ไฟล์รวม EN + TH)');
+    payload.set('วันที่', `${date} (เวลาไทย)`);
+    payload.set('เวลา', `${time} น. (UTC+7)`);
+    payload.set('หน้าเว็บ', page);
+
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon(FORMSUBMIT_ENDPOINT, payload)) return;
+    } catch (error) { /* fall through to fetch */ }
+
+    fetch(FORMSUBMIT_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: payload,
+      keepalive: true,
+    }).catch(() => { /* notification is best-effort; the download still works */ });
+  }
+
+  function startDownload() {
+    const link = document.createElement('a');
+    link.href = DOWNLOAD_ZIP;
+    link.download = DOWNLOAD_ZIP_NAME;
+    link.rel = 'noopener';
+    body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function triggerDownload() {
+    notifyDownload(downloadInput ? downloadInput.value : '');
+    startDownload();
+    window.setTimeout(() => {
+      closeDownload();
+      showToast(ui().downloadStarted);
+    }, 150);
+  }
 
   function downloadPdfs() {
-    if (window.CVEditor) {
-      closeMenu();
-      if (cmdk && !cmdk.hidden) closeCmdk();
-      return window.CVEditor.download();
-    }
-    closeMenu();
-    if (!cmdk.hidden) closeCmdk();
-    showToast(ui().downloading);
+    openDownload();
+  }
 
-    PDF_FILES.forEach((file, index) => {
-      window.setTimeout(() => {
-        const link = document.createElement('a');
-        link.href = file.href;
-        link.download = file.filename;
-        link.rel = 'noopener';
-        body.appendChild(link);
-        link.click();
-        link.remove();
-      }, index * 400);
+  if (downloadDialog) {
+    downloadDialog.querySelectorAll('[data-download-close]').forEach((element) => {
+      element.addEventListener('click', closeDownload);
+    });
+
+    downloadDialog.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(downloadDialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const card = downloadDialog.querySelector('.cv-download-card');
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === card)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  }
+
+  if (downloadLink) {
+    downloadLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      triggerDownload();
+    });
+  }
+
+  if (downloadInput) {
+    downloadInput.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      triggerDownload();
     });
   }
 
@@ -669,6 +800,7 @@
   window.addEventListener('beforeprint', () => {
     closeMenu();
     if (!cmdk.hidden) closeCmdk();
+    if (downloadDialog && !downloadDialog.hidden) closeDownload();
   });
 
   /* ------------------------------------------------------------
@@ -809,6 +941,7 @@
   function openCmdk() {
     if (!cmdk) return;
     if (lightbox && !lightbox.hidden) closeLightbox();
+    if (downloadDialog && !downloadDialog.hidden) closeDownload();
     lastFocused = document.activeElement;
     cmdk.hidden = false;
     body.style.overflow = 'hidden';
@@ -905,7 +1038,10 @@
       return;
     }
     if (event.key === 'Escape') {
-      if (lightbox && !lightbox.hidden) {
+      if (downloadDialog && !downloadDialog.hidden) {
+        event.preventDefault();
+        closeDownload();
+      } else if (lightbox && !lightbox.hidden) {
         event.preventDefault();
         closeLightbox();
       } else if (!cmdk.hidden) {

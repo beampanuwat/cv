@@ -14,7 +14,7 @@
   #projects .project.motion-enter .project-index { animation:icon-connect .7s var(--ease) var(--motion-delay,0ms) both; }
   #credentials .cert.motion-enter .cert-icon { animation:credential-arrive .85s var(--ease) var(--motion-delay,0ms) both; }
   #contact .contact-panel.motion-active .contact-glow { animation:contact-breathe 7s ease-in-out infinite; }
-  .section-motion:not(.motion-active),.section-motion:not(.motion-active) * { animation-play-state:paused; }
+  .section-motion:not(.motion-active),.section-motion:not(.motion-active) * { animation-play-state:paused!important; }
   .motion-paused .section-motion,.motion-paused .section-motion * { animation-play-state:paused!important; }
 }
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
@@ -30,6 +30,71 @@
 @keyframes icon-connect { from {opacity:.4;translate:0 5px;} to {opacity:1;translate:0 0;} }
 @keyframes credential-arrive { from {opacity:.3;rotate:-18deg;} to {opacity:1;rotate:0deg;} }
 @keyframes contact-breathe { 0%,100% {opacity:.3;scale:.97;} 50% {opacity:.6;scale:1.03;} }
+
+/* ---------- Contact: an RGB light runs around the panel edge ---------- */
+@property --contact-sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+#contact .contact-panel {
+  --rgb-1: #ff2d55;
+  --rgb-2: #ff9f0a;
+  --rgb-3: #ffe600;
+  --rgb-4: #30d158;
+  --rgb-5: #00e5ff;
+  --rgb-6: #4d7cff;
+  --rgb-7: #c04dff;
+  --contact-head: #ffffff;
+}
+html[data-theme="light"] #contact .contact-panel {
+  --rgb-1: #c81e4a;
+  --rgb-2: #c2410c;
+  --rgb-3: #7a6200;
+  --rgb-4: #047857;
+  --rgb-5: #0e7490;
+  --rgb-6: #1d4ed8;
+  --rgb-7: #6d28d9;
+  --contact-head: #0b1526;
+}
+
+@supports ((mask-composite: exclude) or (-webkit-mask-composite: xor)) {
+  #contact .contact-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--contact-sweep),
+      transparent 0deg 120deg,
+      color-mix(in srgb, var(--rgb-1) 8%, transparent) 156deg,
+      var(--rgb-1) 188deg,
+      var(--rgb-2) 210deg,
+      var(--rgb-3) 232deg,
+      var(--rgb-4) 254deg,
+      var(--rgb-5) 276deg,
+      var(--rgb-6) 298deg,
+      var(--rgb-7) 320deg,
+      var(--contact-head) 340deg,
+      transparent 352deg 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--contact-head) 48%, transparent));
+    pointer-events: none;
+    z-index: 3;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #contact .contact-panel.motion-active::before { animation: contact-run 4s linear infinite; }
+  #contact .contact-panel.motion-active .contact-email { animation: email-flow 5s linear infinite; }
+  .motion-paused #contact .contact-panel::before,
+  .motion-paused #contact .contact-email { animation-play-state: paused; }
+}
+@keyframes contact-run { to { --contact-sweep: 360deg; } }
+/* One full mirrored colour cycle: no seam where the loop restarts. */
+@keyframes email-flow { to { background-position: 252px 0; } }
 @media (max-width:600px) {
   .section-signal {width:80px;height:22px;}
   @media (prefers-reduced-motion:no-preference) {
@@ -46,4 +111,4 @@
 @media (prefers-reduced-motion:reduce) {
   .section-motion,.section-motion *, .section-signal * {animation:none!important;translate:none!important;scale:none!important;rotate:none!important;}
 }
-@media print { .section-signal {display:none;} .section-motion {animation:none!important;opacity:1!important;translate:none!important;} }
+@media print { .section-signal {display:none;} .section-motion {animation:none!important;opacity:1!important;translate:none!important;} #contact .contact-panel::before {display:none!important;} }
