@@ -48,9 +48,9 @@
       action: 'Action',
       switchLang: 'Switch to Thai',
       copyEmail: 'Copy email',
-      printAction: 'Download CV (EN + TH)',
+      printAction: 'Download CV (PDF)',
       downloadCompanyPlaceholder: 'Acme Co., Ltd.',
-      downloadStarted: 'Your CV download has started — EN + TH',
+      downloadStarted: 'Your CV download has started — PDF',
       downloadClose: 'Close',
       viewProfile: 'View full profile photo of Panuwat Puakroongrueng',
       closeProfile: 'Close profile photo',
@@ -74,9 +74,9 @@
       action: 'คำสั่ง',
       switchLang: 'สลับเป็นภาษาอังกฤษ',
       copyEmail: 'คัดลอกอีเมล',
-      printAction: 'ดาวน์โหลด CV (EN + TH)',
+      printAction: 'ดาวน์โหลด CV (PDF)',
       downloadCompanyPlaceholder: 'บริษัท ตัวอย่าง จำกัด',
-      downloadStarted: 'เริ่มดาวน์โหลด CV แล้ว — EN + TH',
+      downloadStarted: 'เริ่มดาวน์โหลด CV แล้ว — PDF',
       downloadClose: 'ปิด',
       viewProfile: 'ดูรูปโปรไฟล์ขนาดเต็มของ ภานุวัฒน์ พวกรุ่งเรือง',
       closeProfile: 'ปิดรูปโปรไฟล์',
@@ -106,6 +106,7 @@
     }
 
     syncControlLabels();
+    syncDownloadLink();
     if (!cmdk.hidden) renderCmdk();
   }
 
@@ -646,15 +647,32 @@
   const downloadDialog = document.getElementById('cv-download');
   const downloadInput = document.getElementById('cv-download-company');
   const downloadLink = document.getElementById('cv-download-link');
-  const DOWNLOAD_ZIP = 'assets/download/CV_Panuwat_Puakroongrueng_EN_TH.zip';
-  const DOWNLOAD_ZIP_NAME = 'CV_Panuwat_Puakroongrueng_EN_TH.zip';
+  // One PDF per language: the download follows whichever language the page is in.
+  const DOWNLOAD_PDFS = {
+    en: { lang: 'EN', href: 'assets/pdf/CV_Panuwat_Puakroongrueng_EN_Updated.pdf', name: 'CV_Panuwat_Puakroongrueng_EN.pdf' },
+    th: { lang: 'TH', href: 'assets/pdf/CV_Panuwat_Puakroongrueng_TH_Updated.pdf', name: 'CV_Panuwat_Puakroongrueng_TH.pdf' },
+  };
+  const downloadFile = () => DOWNLOAD_PDFS[root.lang === 'th' ? 'th' : 'en'];
   // FormSubmit needs no account: the owner confirms the first notification once.
   const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/beam_panuwat@hotmail.com';
   let downloadLastFocused = null;
   let downloadNotifyLock = 0;
 
+  function syncDownloadLink() {
+    if (!downloadLink) return;
+    const file = downloadFile();
+    if (downloadLink.getAttribute('href') !== file.href) downloadLink.setAttribute('href', file.href);
+    if (downloadLink.getAttribute('download') !== file.name) downloadLink.setAttribute('download', file.name);
+    // Name the version in the button itself, so the choice is obvious before clicking.
+    const en = downloadLink.querySelector('.lang-en');
+    const th = downloadLink.querySelector('.lang-th');
+    if (en) en.textContent = `Download CV (PDF · ${file.lang})`;
+    if (th) th.textContent = `ดาวน์โหลด CV (PDF · ${file.lang})`;
+  }
+
   function openDownload() {
     if (!downloadDialog) return;
+    syncDownloadLink();
     closeMenu();
     if (cmdk && !cmdk.hidden) closeCmdk();
     if (lightbox && !lightbox.hidden) closeLightbox();
@@ -698,24 +716,26 @@
     };
   }
 
-  function notifyDownload(company) {
+  function notifyDownload(company, lang) {
     const stamp = Date.now();
     if (stamp - downloadNotifyLock < 3000) return;
     downloadNotifyLock = stamp;
 
     const { date, time } = formatNotificationTime(new Date());
     const name = String(company || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim() || 'ไม่ระบุชื่อบริษัท';
+    const version = lang === 'th' ? 'th' : 'en';
+    const versionLabel = version === 'th' ? 'ภาษาไทย' : 'ภาษาอังกฤษ';
     const page = `${window.location.origin}${window.location.pathname}`;
     const payload = new URLSearchParams();
-    // Subject carries the report at a glance: who, and when in Thai time.
-    payload.set('_subject', `CV ถูกดาวน์โหลด: ${name} — ${date} ${time} น.`);
+    // Subject carries the report at a glance: who, which language, and when in Thai time.
+    payload.set('_subject', `CV ถูกดาวน์โหลด: ${name} (${version.toUpperCase()}) — ${date} ${time} น.`);
     payload.set('_template', 'table');
     payload.set('_captcha', 'false');
     payload.set('_url', page);
     payload.set('_honey', '');
     // Separate rows so the notification reads as a report: who did what, where, when.
     payload.set('บริษัทที่ดาวน์โหลด', name);
-    payload.set('สิ่งที่ทำ', 'ดาวน์โหลด CV ผ่านปุ่ม Download CV (ไฟล์รวม EN + TH)');
+    payload.set('สิ่งที่ทำ', `ดาวน์โหลด CV ${versionLabel} (ไฟล์ PDF)`);
     payload.set('วันที่', `${date} (เวลาไทย)`);
     payload.set('เวลา', `${time} น. (UTC+7)`);
     payload.set('หน้าเว็บ', page);
@@ -733,9 +753,10 @@
   }
 
   function startDownload() {
+    const file = downloadFile();
     const link = document.createElement('a');
-    link.href = DOWNLOAD_ZIP;
-    link.download = DOWNLOAD_ZIP_NAME;
+    link.href = file.href;
+    link.download = file.name;
     link.rel = 'noopener';
     body.appendChild(link);
     link.click();
@@ -743,11 +764,13 @@
   }
 
   function triggerDownload() {
-    notifyDownload(downloadInput ? downloadInput.value : '');
+    const lang = root.lang === 'th' ? 'th' : 'en';
+    syncDownloadLink();
+    notifyDownload(downloadInput ? downloadInput.value : '', lang);
     startDownload();
     window.setTimeout(() => {
       closeDownload();
-      showToast(ui().downloadStarted);
+      showToast(`${ui().downloadStarted} (${lang.toUpperCase()})`);
     }, 150);
   }
 
